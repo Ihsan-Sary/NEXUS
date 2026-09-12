@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#111113">
+  <meta name="description" content="NEXUS — Your life, in one place.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="app.css">
+  <title>NEXUS</title>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brandmark">N</div><div><b>NEXUS</b><small>Your life, in one place.</small></div></div>
+    <nav id="sideNav">
+      <button class="nav active" data-view="home">⌂ <span>Home</span></button>
+      <button class="nav" data-view="tasks">✓ <span>Tasks</span></button>
+      <button class="nav" data-view="notes">✎ <span>Notes</span></button>
+      <button class="nav" data-view="calendar">◫ <span>Calendar</span></button>
+      <button class="nav" data-view="goals">◎ <span>Goals</span></button>
+      <button class="nav" data-view="lists">☷ <span>Lists</span></button>
+      <button class="nav" data-view="money">$ <span>Money</span></button>
+      <button class="nav" data-view="projects">◆ <span>Projects</span></button>
+      <button class="nav" data-view="settings">⚙ <span>Settings</span></button>
+    </nav>
+    <div class="sidebottom"><button id="installBtn" class="secondary hidden">Install NEXUS</button><small id="syncSide">Local mode</small></div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div><h1 id="pageTitle">Home</h1><p id="pageSub">Everything important, without the digital soup.</p></div>
+      <div class="topactions">
+        <button id="searchBtn" class="iconbtn" title="Search">⌕</button>
+        <button id="themeBtn" class="iconbtn" title="Theme">☾</button>
+        <button id="accountBtn" class="accountpill"><span class="statusdot"></span><span id="accountText">Local only</span></button>
+        <button id="quickAddBtn" class="primary">＋ Quick Add</button>
+      </div>
+    </header>
+
+    <section id="view-home" class="view active">
+      <div class="hero"><div><div class="eyebrow" id="greeting">GOOD EVENING</div><h2>Your day, <span>connected.</span></h2><p>Tasks, goals, money, projects, notes, lists and calendar. One dashboard. Much less tab chaos.</p></div><div class="datebox" id="dateBox"></div></div>
+      <div class="stats">
+        <article><small>Open tasks</small><strong id="sTasks">0</strong><span id="sTasksSub">Nothing pending</span></article>
+        <article><small>Active goals</small><strong id="sGoals">0</strong><span>Keep moving</span></article>
+        <article><small>Balance</small><strong id="sBalance">$0</strong><span id="sBalanceSub">Tracked locally</span></article>
+        <article class="darkcard"><small>Active projects</small><strong id="sProjects">0</strong><span>Things you're building</span></article>
+      </div>
+      <div class="grid2">
+        <article class="panel"><div class="panelhead"><div><h3>Next tasks</h3><p>What deserves attention first.</p></div><button data-jump="tasks" class="textbtn">All tasks</button></div><div id="homeTasks" class="stack"></div></article>
+        <article class="panel"><div class="panelhead"><div><h3>Upcoming</h3><p>Calendar events ahead.</p></div><button data-jump="calendar" class="textbtn">Calendar</button></div><div id="homeEvents" class="stack"></div></article>
+        <article class="panel"><div class="panelhead"><div><h3>Goals</h3><p>Progress at a glance.</p></div><button data-jump="goals" class="textbtn">Goals</button></div><div id="homeGoals" class="stack"></div></article>
+        <article class="panel"><div class="panelhead"><div><h3>Recent notes</h3><p>Fresh thoughts.</p></div><button data-jump="notes" class="textbtn">Notes</button></div><div id="homeNotes" class="stack"></div></article>
+      </div>
+    </section>
+
+    <section id="view-tasks" class="view"><div class="toolbar"><div class="seg" id="taskFilter"><button data-filter="all" class="active">All</button><button data-filter="open">Open</button><button data-filter="done">Done</button></div><button class="primary" onclick="openTask()">＋ Add task</button></div><div id="taskList" class="stack"></div></section>
+    <section id="view-notes" class="view"><div class="toolbar"><input id="noteSearch" class="searchinput" placeholder="Search notes..."><button class="primary" onclick="openNote()">＋ New note</button></div><div id="noteList" class="cards3"></div></section>
+    <section id="view-calendar" class="view"><div class="calendarLayout"><article class="panel"><div class="calhead"><button id="prevMonth" class="iconbtn">‹</button><div><h3 id="calTitle"></h3><p>Select a day</p></div><button id="nextMonth" class="iconbtn">›</button></div><div class="week"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div><div id="calGrid" class="calgrid"></div></article><article class="panel"><div class="panelhead"><div><h3 id="dayTitle"></h3><p id="daySub"></p></div><button class="primary" onclick="openEvent()">＋ Event</button></div><div id="eventList" class="stack"></div></article></div></section>
+    <section id="view-goals" class="view"><div class="toolbar"><div><h3>Goals</h3><p>Small progress still counts.</p></div><button class="primary" onclick="openGoal()">＋ Add goal</button></div><div id="goalList" class="cards3"></div></section>
+    <section id="view-lists" class="view"><div class="toolbar"><div><h3>Lists</h3><p>Groceries, packing, ideas, anything.</p></div><button class="primary" onclick="openList()">＋ New list</button></div><div id="listsGrid" class="cards2"></div></section>
+    <section id="view-money" class="view"><div class="moneyStats"><article><small>Balance</small><strong id="moneyBalance">$0.00</strong></article><article><small>Income</small><strong id="moneyIncome">$0.00</strong></article><article><small>Spent</small><strong id="moneySpent">$0.00</strong></article></div><div class="toolbar"><div><h3>Transactions</h3><p>Simple tracking, no bank connection needed.</p></div><button class="primary" onclick="openMoney()">＋ Add transaction</button></div><div id="moneyList" class="stack"></div></section>
+    <section id="view-projects" class="view"><div class="toolbar"><div><h3>Projects</h3><p>Keep bigger work from becoming fog.</p></div><button class="primary" onclick="openProject()">＋ New project</button></div><div id="projectList" class="cards3"></div></section>
+    <section id="view-settings" class="view"><div class="settingsGrid">
+      <article class="panel"><h3>Appearance</h3><p>Choose how NEXUS looks.</p><div class="settingrow"><div><b>Theme</b><small>System, light or dark</small></div><select id="themeSelect"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></div></article>
+      <article class="panel"><h3>Cloud sync</h3><p>NEXUS can use one Supabase project for account login and per-user syncing.</p><div class="formgrid"><label>Supabase project URL<input id="cloudUrl" placeholder="https://your-project.supabase.co"></label><label>Publishable / anon key<input id="cloudKey" placeholder="sb_publishable_... or anon key"></label><div class="row"><button id="saveCloudBtn" class="primary">Save connection</button><button id="clearCloudBtn" class="secondary">Remove connection</button></div><small class="muted">Use only the public publishable/anon key. Never paste a service-role secret into the app.</small></div></article>
+      <article class="panel"><h3>Backup</h3><p>Export your current local NEXUS data or restore it later.</p><div class="row"><button id="exportBtn" class="secondary">Export backup</button><label class="secondary filelabel">Import backup<input id="importFile" type="file" accept="application/json,.json" hidden></label><button id="clearDataBtn" class="danger">Clear current data</button></div></article>
+      <article class="panel"><h3>Account</h3><div id="accountSettings"></div></article>
+    </div></section>
+  </main>
+</div>
+
+<nav class="mobileNav"><button data-view="home" class="active">⌂<span>Home</span></button><button data-view="tasks">✓<span>Tasks</span></button><button data-view="notes">✎<span>Notes</span></button><button data-view="calendar">◫<span>Calendar</span></button><button id="moreBtn">•••<span>More</span></button></nav>
+
+<div id="modalBg" class="modalbg hidden"><div class="modal"><div class="modalhead"><div><div class="eyebrow">NEXUS</div><h3 id="modalTitle"></h3></div><button id="closeModal" class="iconbtn">×</button></div><div id="modalBody"></div></div></div>
+<div id="toast" class="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="app.js"></script>
+<script>
+  if (window.Capacitor && typeof window.Capacitor.isNativePlatform === "function" && window.Capacitor.isNativePlatform()) {
+    document.body.classList.add("native-app");
+  }
+</script>
+</body>
+</html>

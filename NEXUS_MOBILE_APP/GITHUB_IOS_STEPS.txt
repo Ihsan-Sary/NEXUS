@@ -1,0 +1,79 @@
+NEXUS iPHONE BUILD THROUGH GITHUB
+=================================
+
+IMPORTANT
+GitHub accounts are for users age 13+. Use a parent/guardian-owned GitHub account
+for this project if needed.
+
+WHAT THIS BUILD DOES
+This workflow uses a GitHub-hosted Mac to:
+1. Install NEXUS dependencies.
+2. Create the Capacitor iOS project.
+3. Sync the NEXUS web app into iOS.
+4. Compile NEXUS with Xcode for the iPhone Simulator.
+5. Upload the compiled NEXUS app as a downloadable GitHub Actions artifact.
+
+This first build is NOT installable on a physical iPhone.
+It is our "does the iOS app compile?" test.
+
+STEP 1 — CREATE A REPOSITORY
+On GitHub, while signed into the appropriate adult-managed account:
+1. Click the + button near the top-right.
+2. Choose "New repository".
+3. Repository name: NEXUS
+4. Choose Private if desired.
+5. Create repository.
+
+STEP 2 — UPLOAD THE PROJECT
+1. Unzip this NEXUS package on Windows.
+2. Open the NEXUS_MOBILE_APP folder.
+3. In the new GitHub repository, choose:
+   Add file > Upload files
+4. Upload the CONTENTS of NEXUS_MOBILE_APP, not the outside folder itself.
+
+Make sure these appear at the TOP level of the repository:
+- package.json
+- capacitor.config.ts
+- www
+- .github
+
+The workflow must end up here:
+.github/workflows/build-ios-simulator.yml
+
+STEP 3 — RUN THE MAC BUILD
+1. Open the repository.
+2. Click "Actions".
+3. Choose "Build NEXUS iOS Simulator App".
+4. Click "Run workflow".
+5. Click the green "Run workflow" button.
+
+GitHub will start a temporary Mac and build NEXUS.
+
+STEP 4 — DOWNLOAD THE RESULT
+When the workflow turns green:
+1. Open that workflow run.
+2. Scroll to "Artifacts".
+3. Download "NEXUS-iOS-Simulator".
+4. Inside is NEXUS-iOS-Simulator.zip.
+
+WHAT COMES NEXT
+To put NEXUS on a REAL iPhone, we add:
+- Apple Developer signing certificate
+- App ID
+- provisioning profile
+- GitHub repository secrets
+- an archive/export workflow
+
+Then we can work toward:
+- TestFlight
+- App Store
+- NEXUS App Clip
+
+DO NOT PUT THESE IN THE REPOSITORY
+- Apple account password
+- signing certificate password
+- Supabase service_role / secret key
+- private API keys
+
+The Supabase publishable/anon key is designed for client apps when Row Level
+Security is configured correctly, but secret/service-role keys are not.
